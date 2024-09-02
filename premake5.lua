@@ -2,7 +2,8 @@ project "ImGui"
 	kind "StaticLib"
 	language "C++"
 	cppdialect "C++20"
-    staticruntime "on"
+	staticruntime "on"
+	warnings "off"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -14,7 +15,6 @@ project "ImGui"
 		"imgui.cpp",
 		"imgui_draw.cpp",
 		"imgui_internal.h",
-		"imgui_tables.cpp",
 		"imgui_widgets.cpp",
 		"imstb_rectpack.h",
 		"imstb_textedit.h",
@@ -22,18 +22,21 @@ project "ImGui"
 		"imgui_demo.cpp"
 	}
 
-    includedirs
-    {
-        ".",
-    }
-
-	filter "system:windows"
-		systemversion "latest"
-
 	filter "system:linux"
 		pic "On"
 		systemversion "latest"
 
+	filter "system:macosx"
+		pic "On"
+
+	filter "system:windows"
+		systemversion "latest"
+
+		defines 
+		{ 
+			"_CRT_SECURE_NO_WARNINGS"
+		}
+	
 	filter "configurations:Debug"
 		runtime "Debug"
 		symbols "on"
